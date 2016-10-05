@@ -1,0 +1,50 @@
+@font-face {
+    font-family: 'UniversCE45LightRegular';
+    src: url('../fonts/univers_ce_45_light-webfont.eot');
+    src: url('../fonts/univers_ce_45_light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/univers_ce_45_light-webfont.woff') format('woff'),
+         url('../fonts/univers_ce_45_light-webfont.ttf') format('truetype'),
+         url('../fonts/univers_ce_45_light-webfont.svg#UniversCE45LightRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'UniversCE45LightBold'; 
+    src: url('../fonts/univers_ce_65_bold-webfont.eot');
+    src: url('../fonts/univers_ce_65_bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/univers_ce_65_bold-webfont.woff') format('woff'),
+         url('../fonts/univers_ce_65_bold-webfont.ttf') format('truetype'),
+         url('../fonts/univers_ce_65_bold-webfont.svg#UniversCE45LightBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'Glyphter';
+    src: url('../fonts/Glyphter.eot');
+    src: url('../fonts/Glyphter.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/Glyphter.woff') format('woff'),
+         url('../fonts/Glyphter.ttf') format('truetype'),
+         url('../fonts/Glyphter.svg#Glyphter') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+.icon-font,
+[class*='icon-']:before{
+    display: inline-block;
+   font-family: 'Glyphter';
+   font-style: normal;
+   font-weight: normal;
+   line-height: 1;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale 
+}
+.icon-play:before{content:'\0041';}
+.icon-food:before{content:'\0042';}
+.icon-play2:before{content:'\0043';}
+.icon-bl,
+.icon-black-label:before{content:'\0044';}
+.icon-rl,
+.icon-red-label:before{content:'\0045';}

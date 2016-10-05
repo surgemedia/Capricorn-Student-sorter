@@ -1,0 +1,29 @@
+.card {
+	h1 {}
+	h2 {}
+	.wrapper {
+		p {}
+		.btn {}
+
+	}
+
+&.testimonial{
+		margin-bottom: 1em;
+		.wrapper {
+			margin:1em;
+			background:$color4;
+			border-radius:2px;
+			padding:1em;
+			text-transform: italic;
+		}
+		.author {
+			font-size:1.4em;
+			border-top:1px solid #000;
+			margin-top:1em;
+			padding-top:1em;
+			width:100%;
+			display: block;
+			font-weight:bold;
+		}
+	}
+}

@@ -1,0 +1,101 @@
+.btn {
+	font-family: "UniversCE45LightBold", arial, sans-serif;
+}
+
+.btn {
+		@include button(#000,$color1,#fff,#fff);
+		@extend .wordwrap;
+	&.black-tie {
+		@include button(#000,$color2,#fff,#fff);
+		 @extend .gradient-black;
+	}
+	&.pink {
+		@include button($color2,#000,#fff,#fff);
+	}
+}
+#viewMenusBlack {
+	@extend .btn;
+	@include button(#e4b117,$color2,#000,#fff);
+	border:1px;
+	border-radius:2px;
+	text-transform:uppercase;
+	margin-top:1em;
+} 
+#viewMenusRed {
+	@extend .btn;
+	@include button($color2,#000,#fff,#fff);
+	border-radius:2px;
+	text-transform:uppercase;
+	margin-top:1em;
+}
+
+#viewMenusBlackButton {
+	@extend .btn;
+	@include button(#000,#000,$color8,#fff);
+	// border:2px solid $color8;
+	border-radius:0px;
+	text-transform:uppercase;
+	padding: 10px 0px;
+  border-radius: 2px;
+  border-color:$color8;
+      text-transform: uppercase;
+    margin-top: 0.2em;
+    width: 49%;
+    float: left; 
+    margin-left: 3px;
+  i {
+  	font-size:2em;
+  }
+} 
+#viewMenusRedButton {
+	@extend .btn;
+	@include button($color1,#000,#fff,#fff);
+	
+	border-radius:0px;
+	text-transform:uppercase;
+	padding: 10px 0px;
+  border-radius: 2px;
+     text-transform: uppercase;
+    margin-top: 0.2em;
+    width: 50%;
+    float: left;
+  i {
+  	font-size:2em;
+  }
+}
+#requestFake,
+#request,#securepay{
+	padding: 0.9em;
+	border: 0px;
+	font-size: 1.82em;
+	text-transform: uppercase;
+	float: right;
+	margin-top: 1em;
+	margin-left:3px;
+	border-radius: 2px;
+
+}
+.btn.rounded {
+	  padding: 1em;
+    border-radius: 5px;
+    border: 0px; 
+    font-size: 1.82em;
+    text-transform: uppercase;
+    float: right;
+    margin-top: 1em;
+}
+
+#sidebar {
+	.btn {
+		font-family: arial, helvetica, sans-serif;
+    font-size: 18px;
+    color: #fff;
+    text-decoration: none;
+    padding: 11px 30px 12px 30px;
+    display: block;
+    border-bottom: 1px solid #b9173d;
+    border-top: 1px solid #f14b71;
+    background: transparent;
+    @extend .wordwrap;
+	}
+}

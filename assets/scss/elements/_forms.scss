@@ -1,0 +1,119 @@
+// Search form
+/* .search-form {
+  @extend .form-inline;
+}
+.search-form label {
+  font-weight: normal;
+  @extend .form-group;
+}
+.search-form .search-field {
+  @extend .form-control;
+}
+.search-form .search-submit {
+  @extend .btn;
+  @extend .btn-default;
+} */
+
+.form {
+  padding: 2em;
+  overflow:hidden;
+  color: #fff;
+  position:relative;
+  h1{
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+}
+.nf-form-fields-required {
+    display:none;
+}
+.nf-form-content {
+  font-size:1.2em;
+  .nf-field-container {
+    margin: 0;
+          .nf-field {
+      
+            input { border:0px; padding:0.5em 0.5em;
+              color:#000;}
+            select {
+              padding: 0.5em;
+              color: #000;
+              background: #fff; 
+              border:0px;
+
+              }
+            textarea {
+            border:0px;
+            color:#000;
+           }
+            .nf-field-label {
+              label {
+                text-align: left;
+
+              }
+            }
+            .listradio-wrap {
+                  padding: 1em 0em;
+              }
+          }
+        #nf-field-2 {
+            background: #000;
+            color:#fff;
+            font-size: 1.4em;
+            float:right;
+        }
+    }
+    .nf-after-field .nf-error-msg {
+      padding: 0.5em 1em 1em 0em;
+      overflow: hidden;
+      margin: 0px;
+      text-align: right;
+    }
+    .ninja-forms-req-symbol,
+    .nf-error-msg {
+                  color:#000;
+                }
+    .nf-help {
+      display: none;
+    }
+}
+
+
+/* ---------------------------------
+LABEL LEFT
+----------------------------------*/
+.label-left {
+    .field-wrap {
+        flex-direction: row;
+        flex-wrap: wrap;
+        display:flex;
+        margin-bottom: .8em;
+    }
+    .nf-field-label {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-right: 2%;
+        text-align: right;
+        width: 35%;
+        order: 5;
+        label {
+            width: 100%;
+        }
+    }
+    .nf-field-description {
+        margin-left: 35%;
+    }
+    .nf-field-element {
+        display: inline-block;
+        width: 65%;
+        order: 10;
+        input{
+          width:100%;
+        }
+    }
+    .nf-after-field {
+        margin-left: 36.5%;
+    }
+}
