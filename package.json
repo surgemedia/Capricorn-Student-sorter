@@ -37,6 +37,7 @@
     "npm": "^3.10.6",
     "postcss-loader": "^0.10.0",
     "precss": "^1.4.0",
+    "react": "^15.3.2",
     "resolve-url-loader": "^1.6.0",
     "sass-loader": "^3.2.2",
     "style-loader": "^0.13.1",

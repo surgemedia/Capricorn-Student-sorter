@@ -2,7 +2,7 @@
 /*
 Plugin Name: Student Sorter
 Description: sort student with qr codes and thumbnails
-Author: Alex King & Hector Nuvaro
+Author: Alex King & Hector Navarro
 Version: 0.1
 */
 
@@ -10,13 +10,13 @@ Version: 0.1
 =            Libraries            =
 =================================*/
 include_once( dirname( __FILE__ ) . '/lib/qrreader/QrReader.php');
+require_once(ABSPATH .'/wp-admin/includes/file.php');
 
 
 
 /*=======================================
 =            Vars and Stores            =
 =======================================*/
-require_once(ABSPATH .'/wp-admin/includes/file.php');
 global $wp_filesystem;
 
 // createStore();
