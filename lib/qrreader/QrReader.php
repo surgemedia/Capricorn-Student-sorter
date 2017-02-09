@@ -62,6 +62,7 @@ final class QrReader
             switch($sourcetype) {
                 case QrReader::SOURCE_TYPE_FILE:
                     if($isUseImagickIfAvailable && extension_loaded('imagick')) {
+                        
                         $im = new Imagick();
                         $im->readImage($imgsource);
                     }else {
@@ -104,8 +105,9 @@ final class QrReader
             $histo = new \Zxing\Common\HybridBinarizer($source);
             $bitmap = new \Zxing\BinaryBitmap($histo);
             $reader = new \Zxing\Qrcode\QRCodeReader();
-
+            
             $this->result = $reader->decode($bitmap);
+            
         }catch (\Zxing\NotFoundException $er){
             $this->result = false;
         }catch( \Zxing\FormatException $er){

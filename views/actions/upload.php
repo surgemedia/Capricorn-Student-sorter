@@ -5,20 +5,30 @@
 	    require_once( ABSPATH . 'wp-admin/includes/file.php' );
 	}
 	$uploadedfile = $_FILES['fileToUpload'];
+	
+	$uploadedFilePath = wp_upload_dir()['basedir'] . '/student_sorter_uploads'.'/'.$uploadedfile['name'];
+
+
+
 	$upload_overrides = array( 'test_form' => false );
 	$movefile = wp_handle_upload( $uploadedfile, $upload_overrides );
 	if ( $movefile && ! isset( $movefile['error'] ) ) {
-			if(!file_exists(wp_upload_dir()['basedir'] . '/student_sorter_uploads'.'/'.$_FILES['fileToUpload']['name'])){
+			/*If Zip doesn't exists*/
+			if(!file_exists($uploadedFilePath)){
 			//Get unzip function from wordpress
-			require_once(ABSPATH .'/wp-admin/includes/file.php');
-			global $wp_filesystem;
-			if ( ! $filesystem ) { WP_Filesystem(); if ( ! $wp_filesystem ){ print_r('wp_filesystem no found'); } }
+			 require_once(ABSPATH .'wp-admin/includes/file.php');
+		
+			WP_Filesystem(); 
+			echo "File doesnt exist </br>";
 			//store long vars
 			$old_dir = $movefile['file'];
-			$new_dir = wp_upload_dir()['basedir'] . '/student_sorter_uploads'.'/'.$_FILES['fileToUpload']['name'];
-			$clean_name = explode('.zip',$_FILES['fileToUpload']['name'])[0];
+			//echo "Old dir: ".$old_dir."</br>";
+			$new_dir = wp_upload_dir()['basedir'] . '/student_sorter_uploads'.'/'.$uploadedfile['name'];
+			echo "New dir: ".$new_dir."</br>";
+			$clean_name = explode('.zip',$uploadedfile['name'])[0];
 			$folder_dir = wp_upload_dir()['basedir'] . '/student_sorter_uploads'.'/'.$clean_name;
-
+			$_SESSION["folder_dir"] = $folder_dir."_thumb";
+			echo "Folder dir: ".$folder_dir."</br>";
 			/*=================================
 			=            Move File            =
 			=================================*/
@@ -27,20 +37,98 @@
 			=            Unzip file            =
 			==================================*/
 			//Unzip to folder called clean name - store the result 1 or 0 for error checking.
-			$result = unzip_file( $new_dir, $folder_dir);
-			print_r($result);
-			if ( is_wp_error( $result ) ){
-					print_r(is_wp_error( $result ));
-			} 
+			if (!file_exists($folder_dir)) {
+	    	// echo "Folder doesnt exist: ".$folder_dir."</br>";
+	    	wp_mkdir_p($folder_dir, 0777, true);
+	    	wp_mkdir_p($folder_dir."_thumb", 0777, true);
+	    	// echo "creo: ".$x."</br>" ;
+			}
+
+			$zip = new ZipArchive;
+			$res = $zip->open($new_dir);
+			if ($res === TRUE) {
+			  // extract it to the path we determined above
+			  $zip->extractTo($folder_dir);
+			  $zip->close();
+			  // echo "WOOT! $new_dir extracted to $folder_dir";
+			} else {
+			  // echo "Doh! I couldn't open $new_dir";
+			}	
+		
 			/*========================================
 			=            Store File Names            =
 			========================================*/
 			$store['zips'][$clean_name] = $folder_dir;
 
 			print_r($store['zips']);
-			} else {
-				echo 'Already a file there';
+
+/*=====================================================
+=            Resizing images les than 300kb            =
+=====================================================*/
+			$files = glob($folder_dir."/*.*");
+			// print_r($files);
+			$config['width_threshold']=300;
+			$config['height_threshold']=300;
+			foreach ($files as $file) {
+				// echo explode($clean_name."/",$file)[1]."</br>";
+				$im = new Imagick();
+				try {
+				  $im->pingImage($file);
+				} catch (ImagickException $e) {
+				  throw new Exception(_('Invalid or corrupted image file, please try uploading another image.'));
+				}
+
+				$width  = $im->getImageWidth();
+				$height = $im->getImageHeight();
+				if ($width > $config['width_threshold'] || $height > $config['height_threshold'])
+				{
+				  try {
+				/* send thumbnail parameters to Imagick so that libjpeg can resize images
+				 * as they are loaded instead of consuming additional resources to pass back
+				 * to PHP.
+				 */
+				    $fitbyWidth = ($config['width_threshold'] / $width) > ($config['height_threshold'] / $height);
+				    $aspectRatio = $height / $width;
+				    if ($fitbyWidth) {
+				      $im->setSize($config['width_threshold'], abs($width * $aspectRatio));
+				    } else {
+				      $im->setSize(abs($height / $aspectRatio), $config['height_threshold']);
+				    }
+				    $im->readImage($file);
+
+				/* Imagick::thumbnailImage(fit = true) has a bug that it does fit both dimensions
+				 */
+				//  $im->thumbnailImage($config['width_threshold'], $config['height_threshold'], true);
+
+				// workaround:
+				    if ($fitbyWidth) {
+				      $im->thumbnailImage($config['width_threshold'], 0, false);
+				    } else {
+				      $im->thumbnailImage(0, $config['height_threshold'], false);
+				    }
+				    $thumbname=explode($clean_name."/",$file)[1];
+				    $im->setImageFileName($folder_dir."_thumb"."/".$thumbname);
+				    $im->writeImage();
+				  }
+				  catch (ImagickException $e)
+				  {
+				    header('HTTP/1.1 500 Internal Server Error');
+				    throw new Exception(_('An error occured reszing the image.'));
+				  }
+				}
+
+				/* cleanup Imagick
+				 */
+				$im->destroy();
 			}
+
+	} else {
+		//print_r($uploadedfile);
+		echo 'Already a file there';
+		$clean_name = explode('.zip',$uploadedfile['name'])[0];
+		$folder_dir = wp_upload_dir()['basedir'] . '/student_sorter_uploads'.'/'.$clean_name;
+		$_SESSION["folder_dir"] = $folder_dir;
+	}
 			
 	} else {
 	    /**
@@ -56,3 +144,4 @@
 
 
 ?>
+

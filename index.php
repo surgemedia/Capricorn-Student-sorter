@@ -5,7 +5,9 @@ Description: sort student with qr codes and thumbnails
 Author: Alex King & Hector Navarro
 Version: 0.1
 */
-
+session_start();
+wp_register_style( 'ss-bundle', plugins_url('dist/bundle.css', __FILE__) );
+wp_enqueue_style('ss-bundle');
 /*=================================
 =            Libraries            =
 =================================*/
@@ -26,8 +28,8 @@ $store['zips'] = array();
 $store['uploads'] = wp_upload_dir();
 $store['uploads_dir'] = $store['uploads']['basedir'];
 $store['uploads_dir'] = $store['uploads_dir'] . '/student_sorter_uploads';
-if(!file_exists($upload_dir)){
-	wp_mkdir_p($upload_dir);
+if(!file_exists($store['uploads_dir'])){
+	wp_mkdir_p($store['uploads_dir']);
 }
 
 

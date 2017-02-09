@@ -1,0 +1,62 @@
+.select-photos{
+	.user-header{
+		/* border: 1px solid cyan; */
+	  background-color: #eee;
+	  text-align: left;
+	  margin-bottom:2em;
+	  h1{
+	  	font-size: 18px;
+	  	display: inline-block;
+	  }
+	  .number{
+	  	background-color: blue;
+	  	border-radius:100%;
+	  	color:#fff;
+	  	display: inline-block;
+	  	width: 20px;
+	  	height: 20px;
+	  	text-align: center;
+	  	vertical-align: text-bottom;
+	 	}
+	}
+
+
+	.picture-list{
+		.photo-item {
+			width: 100px;
+			height: 100px;
+			background: #eee;
+			position: relative;
+			input[type=checkbox]{
+				display:none;
+			}
+			label {
+		    display: block;
+		    width: 100%;
+		    height: 100%;
+		    cursor: pointer;
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    z-index: 1;
+		    background: transparent;
+		    transition: .3s all ease;
+		  }
+		  input[type=checkbox]:checked + label {
+		    &:after{
+		      content:"";
+		      display:inline-block;
+		      opacity:1;
+		      position:absolute;
+		      width:20px;
+		      height:20px;
+		      z-index:1;
+		      right:0;
+		      background: #26ca28;
+		      border-radius:100%;
+		      transition: .3s all ease;
+		    }
+		  }
+		}
+	}
+}

@@ -1,4 +1,4 @@
-@mixin placeholder {
+/* @mixin placeholder {
   ::-webkit-input-placeholder {@content}
   :-moz-placeholder           {@content}
   ::-moz-placeholder          {@content}
@@ -8,4 +8,4 @@
 @include placeholder {
     color: $color4;
     font-weight:300;
-}
+} */
