@@ -1,14 +1,16 @@
 <?php 
 // Check that the nonce is valid, and the user can edit this post.
+	
+	$submit = $_POST['submit'];
 
-	if ( ! function_exists( 'wp_handle_upload' ) ) {
+switch ($submit) {
+	case 'Sort Photo':
+		if ( ! function_exists( 'wp_handle_upload' ) ) {
 	    require_once( ABSPATH . 'wp-admin/includes/file.php' );
 	}
 	$uploadedfile = $_FILES['fileToUpload'];
 	
 	$uploadedFilePath = wp_upload_dir()['basedir'] . '/student_sorter_uploads'.'/'.$uploadedfile['name'];
-
-
 
 	$upload_overrides = array( 'test_form' => false );
 	$movefile = wp_handle_upload( $uploadedfile, $upload_overrides );
@@ -27,8 +29,8 @@
 			echo "New dir: ".$new_dir."</br>";
 			$clean_name = explode('.zip',$uploadedfile['name'])[0];
 			$folder_dir = wp_upload_dir()['basedir'] . '/student_sorter_uploads'.'/'.$clean_name;
-			$_SESSION["folder_dir"] = $folder_dir."_thumb";
-			echo "Folder dir: ".$folder_dir."</br>";
+			$_SESSION["folder_dir"] = $folder_dir;
+			echo "base dir: ".wp_upload_dir()['basedir']."</br>";
 			/*=================================
 			=            Move File            =
 			=================================*/
@@ -40,7 +42,7 @@
 			if (!file_exists($folder_dir)) {
 	    	// echo "Folder doesnt exist: ".$folder_dir."</br>";
 	    	wp_mkdir_p($folder_dir, 0777, true);
-	    	wp_mkdir_p($folder_dir."_thumb", 0777, true);
+	    	// wp_mkdir_p($folder_dir."_thumb", 0777, true);
 	    	// echo "creo: ".$x."</br>" ;
 			}
 
@@ -62,69 +64,55 @@
 
 			print_r($store['zips']);
 
-/*=====================================================
-=            Resizing images les than 300kb            =
-=====================================================*/
 			$files = glob($folder_dir."/*.*");
-			// print_r($files);
-			$config['width_threshold']=300;
-			$config['height_threshold']=300;
-			foreach ($files as $file) {
-				// echo explode($clean_name."/",$file)[1]."</br>";
-				$im = new Imagick();
-				try {
-				  $im->pingImage($file);
-				} catch (ImagickException $e) {
-				  throw new Exception(_('Invalid or corrupted image file, please try uploading another image.'));
-				}
 
-				$width  = $im->getImageWidth();
-				$height = $im->getImageHeight();
-				if ($width > $config['width_threshold'] || $height > $config['height_threshold'])
-				{
-				  try {
-				/* send thumbnail parameters to Imagick so that libjpeg can resize images
-				 * as they are loaded instead of consuming additional resources to pass back
-				 * to PHP.
-				 */
-				    $fitbyWidth = ($config['width_threshold'] / $width) > ($config['height_threshold'] / $height);
-				    $aspectRatio = $height / $width;
-				    if ($fitbyWidth) {
-				      $im->setSize($config['width_threshold'], abs($width * $aspectRatio));
-				    } else {
-				      $im->setSize(abs($height / $aspectRatio), $config['height_threshold']);
-				    }
-				    $im->readImage($file);
+			$schools_shots = array();
+			$student_session = array();
+			$session = array();
 
-				/* Imagick::thumbnailImage(fit = true) has a bug that it does fit both dimensions
-				 */
-				//  $im->thumbnailImage($config['width_threshold'], $config['height_threshold'], true);
+			$current_student="";
+			$count=0;
 
-				// workaround:
-				    if ($fitbyWidth) {
-				      $im->thumbnailImage($config['width_threshold'], 0, false);
-				    } else {
-				      $im->thumbnailImage(0, $config['height_threshold'], false);
-				    }
-				    $thumbname=explode($clean_name."/",$file)[1];
-				    $im->setImageFileName($folder_dir."_thumb"."/".$thumbname);
-				    $im->writeImage();
-				  }
-				  catch (ImagickException $e)
-				  {
-				    header('HTTP/1.1 500 Internal Server Error');
-				    throw new Exception(_('An error occured reszing the image.'));
-				  }
-				}
+			$last=sizeof($files)-1;
 
-				/* cleanup Imagick
-				 */
-				$im->destroy();
+			foreach ($files as $key=>$file) {
+			  $qrcode = new QrReader($file);
+			  if (!empty($qrcode->text())) {
+
+			    
+			    if ($count===0){
+			      
+			      $id = $qrcode->text();
+			      
+			      $count++;  
+			    }else {
+			      $student_session[$id] = $session;
+			      $session = array();
+			      $id = $qrcode->text();
+			      $count++;
+			    }
+			    
+			  }else{
+			  	$photo_path= explode(wp_upload_dir()['basedir'], $file)[1];
+			    if($photo_count === 0){
+			    	
+			    }
+			    $session[] = array('checked' => false, 'file' => $photo_path);
+			  }
+			  if ($key===$last){
+			    $student_session[$id] = $session;
+			  }
 			}
+
+			$schools_shots = $student_session;
+
+			$fp = fopen($folder_dir.'.json', 'w');
+			fwrite($fp, json_encode($schools_shots));
+			fclose($fp);
 
 	} else {
 		//print_r($uploadedfile);
-		echo 'Already a file there';
+		echo 'Already a file there '.$uploadedfile['name'];
 		$clean_name = explode('.zip',$uploadedfile['name'])[0];
 		$folder_dir = wp_upload_dir()['basedir'] . '/student_sorter_uploads'.'/'.$clean_name;
 		$_SESSION["folder_dir"] = $folder_dir;
@@ -139,6 +127,20 @@
 	}
 
 	// The security check failed, maybe show the user an error.
+		break;
+	
+	case "Load": 
+		$folder_dir = $_POST['load'];
+		$_SESSION["folder_dir"] = $folder_dir;
+
+		break;
+
+	default:
+		# code...
+		break;
+}
+
+	
 
 
 

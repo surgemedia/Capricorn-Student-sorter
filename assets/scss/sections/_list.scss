@@ -22,12 +22,15 @@
 
 
 	.picture-list{
+		display: inline-block;
+    float: left;
+    margin-right: 1em;
 		.photo-item {
 			width: 100px;
 			height: 100px;
 			background: #eee;
 			position: relative;
-			input[type=checkbox]{
+			input[type=radio]{
 				display:none;
 			}
 			label {
@@ -42,7 +45,7 @@
 		    background: transparent;
 		    transition: .3s all ease;
 		  }
-		  input[type=checkbox]:checked + label {
+		  input[type=radio]:checked + label {
 		    &:after{
 		      content:"";
 		      display:inline-block;
@@ -50,8 +53,11 @@
 		      position:absolute;
 		      width:20px;
 		      height:20px;
+		      margin: auto;
 		      z-index:1;
 		      right:0;
+		      left:0;
+		      top: -8px;
 		      background: #26ca28;
 		      border-radius:100%;
 		      transition: .3s all ease;

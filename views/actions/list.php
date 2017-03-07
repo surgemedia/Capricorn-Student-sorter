@@ -6,57 +6,64 @@ $folder_dir= $_SESSION["folder_dir"];
 
 
 // $filedir = dirname( __FILE__ ).'/wp-content/uploads/student_sorter_uploads/cap_test_photos';
-$files = glob($folder_dir."/*.*");
+// $files = glob($folder_dir."/*.*");
 
-$react_array = array();
+
+$student_session = array();
+$session = array();
 
 $current_student="";
-$count=1;
-    foreach ($files as $key=>$file) {?>
-        <?php 
-            $qrcode = new QrReader($file);
-            if (!empty($qrcode->text())) {
-              // echo "qrcode: ".$qrcode->text()."</br>";
-              if($key!=0): ?>
-                </ul>
-              <?php
-              endif;
-              $current_student = $qrcode->text();
-              $react_array[$current_student] = array();?>
-              <div class="user-header">
-                <div class='number'><?php echo $count ?></div>
-                <h1><?php echo $current_student ?></h1>
-              </div>
-              <ul id="<?php echo $current_student ?>" class="list-inline picture-list">
-            <?php
-              $count++;
-            } else {
+$count=0;
+
+// copy file content into a string var
+$json_file = file_get_contents($folder_dir.'.json');
+// convert the string to a json object
+$schools_shoots = json_decode($json_file,true); ?>
+
+<?php 
+    $student_count = 0;  
+    foreach ($schools_shoots as $key=>$shoot) { ?>
+      
+      <ul id="" class="list-inline picture-list">
+          <li>
+            <div class="user-header">
+              <div class='number'><?php echo $student_count; ?></div>
+              <h1><?php echo $key; ?></h1>
+            </div>
+          </li>
+             
+          <?php 
+            $student_id=$key;
+            foreach ($shoot as $key => $photo) { 
+            $photo_url = wp_upload_dir()['baseurl'].$photo['file'];
+            $photo_input_id = $student_id."-".$key;
+            
+            ?>
+            
+            <li class="photo-item"> 
+                   
+                  <img width="100" height="100" src="<?php echo $photo_url ?>"> 
+                  <input type="radio" id="<?php echo $photo_input_id?>" name="<?php echo $student_id; ?>" value="<?php echo $key ?>" <?php if($photo['checked']) { ?>checked <?php }?> > 
+                  <label class="check" for="<?php echo $photo_input_id ?>"></label> 
+
+ 
+                </li> 
+
+
+        <?php  } ?>
               
-              // echo "text empty - current_student: ".$current_student."</br>";
-              if(!empty($current_student)){
-                $path_file = site_url().'/wp-content'.explode('/wp-content',$file)[1];
-                array_push($react_array[$current_student],$path_file); ?>
-              
-                <li class="photo-item">
-                  
-                  <img width="100" height="100" src="<?php echo $path_file ?>" alt="">
-                  <input type="checkbox" id="checkbox<?php echo $key?>" name="<?php echo $path_file ?>" value="<?php echo $path_file ?>">
-                  <label class="check" for="checkbox<?php echo $key?>"></label>
-
-                </li>
+           </ul>    
 
             <?php
-              }
-            }
-
-         ?>
            
 
-  <?php
-  
+     
+     
+
+      $student_count++;
     }
 
   
 ?>
-</ul>
+
 
