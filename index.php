@@ -40,20 +40,20 @@ add_action( 'admin_menu', 'ss_admin_menu' );
 
 function ss_admin_menu() {
 	add_menu_page( 
-		'Student Sorter',
-		'Student Sorter',
-		'manage_options',
-		'student_sorter_home',
-		'ss_page1',
-		'dashicons-images-alt2',
-		4);
+		'Student Sorter', 			//string $page_title
+		'Student Sorter',  			//string $menu_title
+		'manage_options',  			//string $capability
+		'student_sorter_home', 	//string $menu_slug
+		'ss_page1',           	//callable $function = ''
+		'dashicons-images-alt2',//string $icon_url = ''
+		4);											//int $position = null
 		add_submenu_page(
-			'student_sorter_home',
-			'Select Photos',
-			'Select Photos',
-			'manage_options',
-			'student_sorter_select',
-			'ss_page2'
+			'student_sorter_home',  //string $parent_slug
+			'Select Photos',				//string $page_title
+			'Select Photos',				//string $menu_title
+			'manage_options',				//string $capability
+			'student_sorter_select',//string $menu_slug
+			'ss_page2'							// callable $function = ''
 		);
 		add_submenu_page(
 			'student_sorter_home',
@@ -63,7 +63,8 @@ function ss_admin_menu() {
 			'student_sorter_order',
 			'ss_page3'
 		); 
-}
+	
+	}
 function ss_page1(){
 	include_once( dirname( __FILE__ ) .'/views/ss_home.php');
 }
@@ -72,5 +73,8 @@ function ss_page2(){
 }
 function ss_page3(){
 	include_once( dirname( __FILE__ ) .'/views/ss_order.php');
+}
+function my_plugin_function(){
+	echo "<h2>plugin page</h2>";
 }
 ?>

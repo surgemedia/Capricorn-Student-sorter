@@ -1,8 +1,8 @@
 <?php 
-  $submit=$_POST['save-shot'];
+  $submit=$_POST['submit'];
 
   switch ($submit) {
-    case 'save-shot':
+    case "Save for Later":
        // Save state
     $folder_dir= $_SESSION["folder_dir"];
     // copy file content into a string var
@@ -11,7 +11,8 @@
     $files = json_decode($json_file,true); 
     $updates = $_POST;
     
-    unset($updates["save-shot"]); /*Cleaning Submit*/
+    $message="Saved";
+    unset($updates["submit"]); /*Cleaning Submit*/
 
     // foreach ($files as $student_id => $photos) {  
     //   if(isset($updates[$student_id])){
@@ -73,10 +74,12 @@
 <?php
     
       break;
-    case 'match-order':
+    case "Match Orders":
       echo "match redirect";
       break;   
-    
+    case "Upload Reshoots":
+      echo "Upload Reshoots";
+      break; 
     default:
       include_once('actions/upload.php');
       break;
@@ -89,11 +92,18 @@
 <div class="wrap">
     <h2>Select Photos</h2>
 </div>
-
+<?php if($message){
+  echo "<div class='bg-info'>".$message."</div>";
+  } ?>
 <form method="post" action="<?php echo site_url('/wp-admin/');?>admin.php?page=student_sorter_select" enctype="multipart/form-data"> 
   <section class="select-photos"> 
    <?php include_once('actions/list.php');?>
-   <?php submit_button("Save for Later",'primary',"save-shot"); ?>
-   <?php submit_button("Match Orders",'primary',"match-order"); ?>
+   <div>
+     <?php submit_button("Save for Later",'primary',"submit"); ?>
+     <?php submit_button("Match Orders",'primary',"submit"); ?>
+   </div>
   </section>
+
+  <input type="file" name="fileToUpload" id="fileToUpload"  multiple="false" />
+  <?php submit_button("Upload Reshoots",'primary',"submit"); ?>
 </form>
