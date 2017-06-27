@@ -1,11 +1,25 @@
-/* @mixin button($bg_color, $bg_hover, $txt_color, $txt_hover) {
-	background-color : $bg_color;
-	color: $txt_color;
-	border-radius : 0px;
-	padding: 10px;
-	&:hover,&:focus{
-		background-color : $bg_hover;
-		color: $txt_hover;
+@mixin button($width,$background){
+	font-family: $font-family;
+	width: $width;
+	padding: .6em 0;
+	display: inline-block;
+	color: #fff;
+	background: $background;
+	
+	text-transform: uppercase;
+	font-weight: bold;
+	height:50px;
+	border-radius:0;
+	border:0;
+	&:hover{
+		text-decoration: none;
 	}
 }
- */
+
+.btn-basic{
+	@include button(100px, $blue_bg);
+	&:hover {
+		background-color:$pink;
+		color:#FFF;
+	}
+}

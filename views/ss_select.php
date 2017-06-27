@@ -1,4 +1,5 @@
 <?php 
+
   $submit=$_POST['submit'];
 
   switch ($submit) {
@@ -64,8 +65,8 @@
 
 
    
-    $new_files = json_encode($files);
-    file_put_contents($folder_dir.'.json', $new_files);
+    // $new_files = json_encode($files);
+    // file_put_contents($folder_dir.'.json', $new_files);
    
    ?>
    
@@ -90,20 +91,61 @@
 ?>
 
 <div class="wrap">
-    <h2>Select Photos</h2>
-</div>
+    <h2>STUDENT SORTER - SELECT</h2>
+
 <?php if($message){
   echo "<div class='bg-info'>".$message."</div>";
   } ?>
-<form method="post" action="<?php echo site_url('/wp-admin/');?>admin.php?page=student_sorter_select" enctype="multipart/form-data"> 
+<form id="ss-select" method="post" action="<?php echo site_url('/wp-admin/');?>admin.php?page=student_sorter_select" enctype="multipart/form-data"> 
   <section class="select-photos"> 
    <?php include_once('actions/list.php');?>
-   <div>
+  </section>
+  <section class="next">
+    <h1>NEXT STEP ...</h1>
+  
+    <ul>
+      <li>
+          <article>
+            <header>
+              <p>Attach additional</p>
+              <i class="clip"></i>
+            </header>
+            <div class="info">
+              <p>upload an additional photos and attach to current shoot</p>
+              <input type="file" name="fileToUpload" id="fileToUpload"  multiple="false" />
+              <?php submit_button("SUBMIT",'primary',"submit"); ?>
+            </div>
+          </article>
+      </li>
+      <li>
+         <article>
+            <header>
+              <p>Upload new</p>
+              <i class="upload"></i>
+            </header>
+            <div class="info">
+              <p>upload a new shoot for another school</p>
+              <a href="">go to UPLOAD page</a>
+            </div>
+          </article>
+      </li>
+      <li>
+        <article>
+          <header>
+            <p>Batch processing/p>
+            <i class="heap"></i>
+          </header>
+          <div class="info">
+            <p>manage which shoots are ready for batch processing</p>
+            <a href="">go to PROCESS page</a>
+          </div>
+        </article>
+      </li>
+    </ul>
+  </section>
+   <!-- <div>
      <?php submit_button("Save for Later",'primary',"submit"); ?>
      <?php submit_button("Match Orders",'primary',"submit"); ?>
-   </div>
-  </section>
-
-  <input type="file" name="fileToUpload" id="fileToUpload"  multiple="false" />
-  <?php submit_button("Upload Reshoots",'primary',"submit"); ?>
+   </div> -->
 </form>
+</div>

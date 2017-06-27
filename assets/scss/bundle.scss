@@ -1,5 +1,5 @@
 @import "needed/variables";
-@import "npm";
+// @import "npm";
 
 /*==============================
 =            Mixins            =
@@ -34,6 +34,9 @@
 // @import 'elements/tabs';
 // @import 'elements/social';
 @import "sections/list";
+@import "sections/generate_code";
+@import "sections/student_sorter";
+
 
 
 /*================================

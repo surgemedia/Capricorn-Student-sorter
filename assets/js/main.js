@@ -13,9 +13,7 @@ require('../scss/bundle.scss');
 
 //NPM
 // require('owl.carousel');
-require('bootstrap-loader'); //just get the script
-
-
+// require('bootstrap-loader'); //just get the script
 
 
 

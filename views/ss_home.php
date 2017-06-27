@@ -1,26 +1,48 @@
-<div class="wrap">
-    <h2>Upload Student Photos</h2>
-</div>
+<div class="plugin-container">
+    <!-- <h2>Upload Student Photos</h2> -->
+
 <?php //update_option( 'ss_zips', ''); ?>
 <form id="featured_upload" method="post" action="<?php echo site_url('/wp-admin/');?>admin.php?page=student_sorter_select" enctype="multipart/form-data">
-	<input type="file" name="fileToUpload" id="fileToUpload"  multiple="false" />
+	<fieldset>
+	<legend>UPLOAD NEW SHOOT</legend>
+	<?php 
+		$terms = get_terms( array(
+								    'taxonomy' => 'school',
+								    'hide_empty' => false,
+											) );
+	 ?>
+	<div class="wrapper">
+		<div class="block">	
+			<div class="field">
+				<label class="label">School:</label> 
+				  <select name="school" id="search_school" class="">
+				    <?php foreach ($terms as $key => $value) { ?>
+				      <option value="<?php echo $value->slug;?>" ><?php echo $value->name;?></option>
+				    <?php } ?>
+				  </select>
+			</div>
+			 <div class="field">
+			 	<label class="label">Year:</label>  
+			 	 <select name="year" class="">
+			 	         <option value="16" >2016</option>
+			 	         <option value="17" >2017</option>
+			 	 </select>
+			 </div>
+			<input type="file" name="fileToUpload" id="fileToUpload"  multiple="false" />
+			<?php wp_nonce_field( 'fileToUpload', 'fileToUpload_nonce' ); ?>
+			<?php submit_button('upload zip','primary'); ?>
+		</div>
+	</div>
 	<input type="hidden" name="post_id" id="post_id" value="<?php echo rand(9000,1000); ?>" />
-	<?php wp_nonce_field( 'fileToUpload', 'fileToUpload_nonce' ); ?>
-	<?php submit_button('Sort Photo','primary'); ?>
-
-	<select name="load" id="">
-		<option value="load_empty">---Select one file---</option>
-		<?php 
-			$previous_loads = glob(wp_upload_dir()['basedir'] . "/student_sorter_uploads/*.json");
-			
-			foreach ($previous_loads as $key => $value) { 
-				$file_name= explode("/student_sorter_uploads/",$value)[1];
-				$folder_name = explode(".json",$value)[0];
-				?>
-		<option value="<?php echo $folder_name;?>"><?php echo $file_name; ?></option>
-		
-		<?php	} ?>
-	</select>
-	<?php submit_button('Load','primary'); ?>
+	</fieldset>
+		<div class="or">Or</div>
+	<fieldset>
+	<legend>VIEW PREVIOUS UPLOADS</legend>
+		<div class="wrapper">
+			<div class="block">	
+				<?php submit_button('Preview','primary'); ?>
+			</div>
+		</div>	
+	</fieldset>
 </form>
 </div>

@@ -163,3 +163,83 @@
 //    white-space: -o-pre-wrap;   /* Opera 7 */    
 //    word-wrap: break-word;      /* IE */
 // }
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 10px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
+    text-align: center;
+    &.show{
+        display:block;
+        z-index: 99999;
+    }
+}
+
+/* Modal Content */
+.modal-content {
+    display: inline-block;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 8px;
+    border: 1px solid #888;
+    width: 80%;
+    position: relative;
+    height: 95vh;
+    .modal-header{
+        .close{
+            position: absolute;
+            left: 13px;
+            z-index: 3;
+        }
+        .modal-title{
+            font-size: 2em;
+            text-align: center;
+            margin: 0.33em 0;
+        }
+    }
+    .modal-body{
+        text-align: center;
+        height: 95%;
+        display: inline-block;
+        img{
+            height:100%;
+        }
+        .sides{
+            position: absolute;
+            top:16px;
+            width: 100%;
+            left: 0;
+            .next{
+                float:right;
+                margin-right: 2em;
+                font-size: 2.3em;
+            }.prev{
+                float:left;
+                margin-left: 2em;
+                font-size: 2.3em;
+            }
+        }
+    }
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}

@@ -1,0 +1,113 @@
+.plugin-container{
+
+	text-align:center;
+}
+.filters{
+	font-family: $font-family;
+	margin-top:1em;
+  fieldset{
+		border: 2px solid;
+    padding: 1.5em 6em;
+		legend{
+			font-weight: 700;
+    	font-size: 1.3em;
+    	text-align: left;
+    	margin-left: -4em;
+		}
+	}
+	.label{
+		display: inline-block;
+		font-size: 1.2em;
+		font-weight: bold;
+		width: 100px;
+	}
+ 	input[type="text"]{
+ 		width: 25%;
+  } 
+}
+
+#gc_generate_code{
+	font-family: $font-family;
+	display:inline-block;
+	fieldset{
+		border: 2px solid;
+    padding: 1.5em 6em;
+		legend{
+			font-weight: 700;
+    	font-size: 1.3em;
+    	text-align: left;
+    	margin-left: -4em;
+		}
+	}
+	.wrapper{
+		text-align: center;
+		.block{
+			text-align: left;
+			display: inline-block;
+			.label{
+				display: inline-block;
+				font-size: 1.2em;
+				font-weight: bold;
+				width: 70px;
+			}
+			.field{
+				margin-bottom: 10px;
+			}
+			input[type='file']{
+				display: block;
+				padding:1em;
+				border:1px solid #d6d2cb;
+			}
+			.submit{
+				text-align: right;
+				padding-bottom: 0;
+				input[type="submit"]{
+					@extend .btn-basic;
+				}
+				
+			}
+		}
+	}
+	
+}
+.lds-ripple{
+	display:none;
+	&.show{
+		display:inline;
+	}
+}
+#gc_studentList{
+	font-family: $font-family;
+	
+	overflow:hidden;
+	margin-top:2em;
+	ul.listinline{
+		padding:1em;
+		display:inline-block;
+		width:100%;
+		margin:0;
+		float:left;
+		li{
+			text-align: left;
+			width: 20%;
+			display:inline-block;
+			float:left;
+			font-weight:700;
+			a{
+				color:#000;
+			}
+
+		}
+		&.item{
+			font-size: 1.5em;
+			/* font-size:20px; */
+			/* border: 1px solid #f5e9e9; */
+		}
+		&:nth-child(2n+1){
+			background-color: $pink;		
+		}
+		&:nth-child(2n){
+			background-color: $blue-light;
+		}
+	}
+}
