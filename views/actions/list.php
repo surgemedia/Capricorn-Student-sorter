@@ -1,11 +1,5 @@
 <?php
 
-
- 
-
-
-
-
 /*=========================================
 =         get featured image url            =
 =========================================*/
@@ -29,10 +23,10 @@
 
 // $folder_dir= $_SESSION["folder_dir"];
 // echo "List: ".$folder_dir."</br>";
-$school = $_POST['school'];
-$year = $_POST['year'];
+/*$school = $_POST['school'];
+$year = $_POST['year'];*/
       // echo "<pre>";
-         
+
           // echo $school."<br/>";
           // echo $year."<br/>";
          
@@ -40,8 +34,17 @@ $year = $_POST['year'];
    
 // $filedir = dirname( __FILE__ ).'/wp-content/uploads/student_sorter_uploads/cap_test_photos';
 // $files = glob($folder_dir."/*.*");
+?>
+<div id="student_filter">
+  <ul> 
+    <li><a id="all_filter">With Family photos</a></li>
+    <li class="active"><a id="photo_filter">With Photos</a></li>
+    <li><a id="empty_filter">Empty</a></li>
+  </ul>
+</div>
 
 
+<?php
 /*==================================
 =            User Query            =
 ==================================*/
@@ -52,7 +55,7 @@ $args = array(
                           'relation' => 'AND', // Optional, defaults to "AND"
                             array(
                               'key'     => 'school',
-                              'value'   => $school,
+                              'value'   => $school_slug,
                             ),
                             array(
                               'key'     => 'current_year',
@@ -70,11 +73,11 @@ if ( ! empty( $user_query->results ) ) {
     foreach ( $user_query->results as $user ) {
        
                
-          echo "<pre>";
+          /*echo "<pre>";
          
           print_r(get_user_meta($user->ID));
          
-          echo "</pre>";
+          echo "</pre>";*/
          $user_info=get_user_meta($user->ID);
          $gallery_portrait=get_field("portrait_photos","user_".$user->ID);
          if(!empty($gallery_portrait)){

@@ -466,6 +466,31 @@
     #gc_studentList ul.listinline:nth-child(2n) {
       background-color: #4ebdce; }
 
+#ss_shoots_list {
+  font-family: "Raleway";
+  overflow: hidden;
+  margin-top: 2em; }
+  #ss_shoots_list ul.listinline {
+    padding: 1em;
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+    float: left; }
+    #ss_shoots_list ul.listinline li {
+      text-align: left;
+      width: calc(100%/3);
+      display: inline-block;
+      float: left;
+      font-weight: 700; }
+      #ss_shoots_list ul.listinline li a {
+        color: #000; }
+    #ss_shoots_list ul.listinline.item {
+      font-size: 1.5em; }
+    #ss_shoots_list ul.listinline:nth-child(2n+1) {
+      background-color: #f35c9f; }
+    #ss_shoots_list ul.listinline:nth-child(2n) {
+      background-color: #4ebdce; }
+
 .plugin-container {
   margin-top: 4em;
   text-align: center; }

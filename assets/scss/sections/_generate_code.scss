@@ -111,3 +111,35 @@
 		}
 	}
 }
+#ss_shoots_list{
+	font-family: $font-family;
+	overflow:hidden;
+	margin-top:2em;
+	ul.listinline{
+		padding:1em;
+		display:inline-block;
+		width:100%;
+		margin:0;
+		float:left;
+		li{
+			text-align: left;
+			width: calc(100%/3);
+			display:inline-block;
+			float:left;
+			font-weight:700;
+			a{
+				color:#000;
+			}
+
+		}
+		&.item{
+			font-size: 1.5em;
+		}
+		&:nth-child(2n+1){
+			background-color: $pink;		
+		}
+		&:nth-child(2n){
+			background-color: $blue-light;
+		}
+	}
+}

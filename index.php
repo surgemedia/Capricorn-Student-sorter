@@ -123,8 +123,8 @@ function ss_admin_menu() {
 		);
 		add_submenu_page(
 			'student_sorter_home',
-			'Send Order',
-			'Send Order',
+			'Batch Process',
+			'Batch Process',
 			'manage_options',
 			'student_sorter_order',
 			'ss_page3'
@@ -194,7 +194,7 @@ function load_students() {
   $year = $_POST['year'];
   $firstName = $_POST['firstName'];
   $lastName = $_POST['lastName'];
-   $$args = array(
+   $args = array(
         'role'           => 'Customer',
         'fields'         => 'all_with_meta',
         'meta_query'     => array(

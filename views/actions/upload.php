@@ -1,8 +1,7 @@
 <?php 
 
 	$submit = $_POST['submit'];
-	$school_id = $_POST['school'];
-	$year = $_POST['year'];
+	
 
 function is_family($id_student){
 	$components_of_id = explode("-", $id_student);
@@ -67,7 +66,7 @@ function my_update_attachment($filename,$t='',$c='') {
 
 
 switch ($submit) {
-	case 'Sort Photo':
+	case 'upload zip':
 		if ( ! function_exists( 'wp_handle_upload' ) ) {
 	    require_once( ABSPATH . 'wp-admin/includes/file.php' );
 		}
@@ -85,16 +84,16 @@ switch ($submit) {
 			 require_once(ABSPATH .'wp-admin/includes/file.php');
 		
 			WP_Filesystem(); 
-			echo "File doesnt exist </br>";
+			// echo "File doesnt exist </br>";
 			//store long vars
 			$old_dir = $movefile['file'];
 			//echo "Old dir: ".$old_dir."</br>";
 			$new_dir = wp_upload_dir()['basedir'] . '/student_sorter_uploads'.'/'.$uploadedfile['name'];
-			echo "New dir: ".$new_dir."</br>";
+			// echo "New dir: ".$new_dir."</br>";
 			$clean_name = explode('.zip',$uploadedfile['name'])[0];
 			$folder_dir = wp_upload_dir()['basedir'] . '/student_sorter_uploads'.'/'.$clean_name;
 			$_SESSION["folder_dir"] = $folder_dir;
-			echo "base dir: ".wp_upload_dir()['basedir']."</br>";
+			// echo "base dir: ".wp_upload_dir()['basedir']."</br>";
 			/*=================================
 			=            Move File            =
 			=================================*/
@@ -123,23 +122,33 @@ switch ($submit) {
 			=            Adding Post Type            =
 			========================================*/
 			// insert the post and set the category
+			$school_slug = $_POST['school'];
+			$year = $_POST['year'];
+			$term_school=get_term_by('slug', $school_slug, 'school');
+ 			$school_name = $term_school->name;
+ 			$time_stamp = current_time( 'd-m-Y' );
+ 			$my_post = array(
+			  'post_type' => 'photo_shoots',
+			  'post_title'    => $school_name." ".$time_stamp,
+			  'post_content'  => $school_name,
+			  'post_status'   => 'publish',
+			  'comment_status' => 'closed',   // if you prefer
+			  'ping_status' => 'closed',      // if you prefer
+			);
 			
-			// $post_id = wp_insert_post(array (
-			//     'post_type' => 'photo_shoots',
-			//     'post_title' => $your_title,
-			//     'post_content' => $your_content,
-			//     'post_status' => 'publish',
-			//     'comment_status' => 'closed',   // if you prefer
-			//     'ping_status' => 'closed',      // if you prefer
-			// ));
+			$post_id = wp_insert_post($my_post);
 
-			// if ($post_id) {
-			//     // insert post meta
-			//     add_post_meta($post_id, '_your_custom_1', $custom1);
-			//     add_post_meta($post_id, '_your_custom_2', $custom2);
-			//     add_post_meta($post_id, '_your_custom_3', $custom3);
-			// }
+			if(!is_wp_error($post_id)){
+				update_field('file_name',$uploadedfile['name'],$post_id);
+				update_field('date_uploaded',$time_stamp,$post_id);
+				update_field('school_slug',$school_slug,$post_id);
+				update_field('year',$year,$post_id);
+			}else{
+			  //there was an error in the post insertion, 
+			  echo "<br/>"+$post_id->get_error_message()+"<br/>";
+			}
 			
+
 			
 			/*========================================
 			=            Store File Names            =
@@ -180,7 +189,7 @@ switch ($submit) {
 			    }else {
 			      
 			    	$user=get_user_by("login",$user_login);
-										
+						update_field('last_photo_shoot' ,$post_id,"user_".$user->ID);			//add field in user CF	
 						if($family){
 							update_field('family_photos' ,$student_photos,"user_".$user->ID);
 						}else{
@@ -210,6 +219,7 @@ switch ($submit) {
 			  }
 			  if ($key===$last){
 			    $user=get_user_by("login",$user_login);
+			   	update_field('last_photo_shoot' ,$post_id,"user_".$user->ID); //add field in user CF
 			   	if($family){
 						update_field('family_photos',$student_photos,"user_".$user->ID);
 			   	}else{
@@ -219,7 +229,7 @@ switch ($submit) {
 			    // $student_session[$user_login] = $session;
 			  }
 			}
-
+			$message = "<br/> Upload Success <br/>"; 
 			// $schools_shots = $student_session;
 			
 
@@ -229,7 +239,8 @@ switch ($submit) {
 
 	} else {
 		//print_r($uploadedfile);
-		echo 'Already a file there '.$uploadedfile['name'];
+		// echo 'Already a file there '.$uploadedfile['name'];
+		$message = "<br/> 'Already a file there '".$uploadedfile['name']." <br/>";
 		$clean_name = explode('.zip',$uploadedfile['name'])[0];
 		$folder_dir = wp_upload_dir()['basedir'] . '/student_sorter_uploads'.'/'.$clean_name;
 		// $_SESSION["folder_dir"] = $folder_dir;
@@ -260,10 +271,10 @@ switch ($submit) {
 	// The security check failed, maybe show the user an error.
 		break;
 	
-	case "Load": 
-		$folder_dir = $_POST['load'];
-		$_SESSION["folder_dir"] = $folder_dir;
-
+	case "preview": 
+		// echo "<pre>".get_field("school_slug",$_POST['photo_shoot'])."</pre>";
+		$school_slug=get_field("school_slug",$_POST['photo_shoot']);
+		$year=get_field("year",$_POST['photo_shoot']);
 		break;
 
 	default:

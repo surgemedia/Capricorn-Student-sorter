@@ -1,7 +1,7 @@
 <?php 
 
   $submit=$_POST['submit'];
-
+  // echo "<br/> Submit: ".$submit."<br/>";
   switch ($submit) {
     case "Save for Later":
        // Save state

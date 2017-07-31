@@ -40,7 +40,35 @@
 	<legend>VIEW PREVIOUS UPLOADS</legend>
 		<div class="wrapper">
 			<div class="block">	
-				<?php submit_button('Preview','primary'); ?>
+				<div class="field">
+				<label class="label">Photo Shoots:</label> 
+				  <select name="photo_shoot" id="search_photo_shoot" class="">
+				 <?php   // WP_Query arguments
+						$args = array(
+							'post_type'              => array( 'photo_shoots' ),
+						);
+
+						// The Query
+						$query = new WP_Query( $args );
+
+						// The Loop
+						if ( $query->have_posts() ) {
+							while ( $query->have_posts() ) {
+								$query->the_post(); ?>
+								<option value="<?php echo get_the_id();?>" ><?php echo get_the_title();?></option>
+					<?php	}
+						} else {
+							// no posts found
+						}
+
+						// Restore original Post Data
+						wp_reset_postdata();
+						?>
+				      
+				   
+				  </select>
+			</div>
+				<?php submit_button('preview','primary'); ?>
 			</div>
 		</div>	
 	</fieldset>
